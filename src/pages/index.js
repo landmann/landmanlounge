@@ -1,4 +1,8 @@
 import * as React from "react";
+import { StaticImage } from "gatsby-plugin-image";
+import { Link } from "gatsby";
+import { container } from "./index.module.css";
+import icon from "../images/icon.png";
 
 const pageStyles = {
   color: "#232129",
@@ -11,7 +15,7 @@ const headingStyles = {
   maxWidth: 320,
 };
 const headingAccentStyles = {
-  color: "#663399",
+  color: "#ABEB50",
 };
 const paragraphStyles = {
   marginBottom: 48,
@@ -55,12 +59,6 @@ const descriptionStyle = {
   lineHeight: 1.25,
 };
 
-const docLink = {
-  text: "Documentation",
-  url: "https://www.gatsbyjs.com/docs/",
-  color: "#8954A8",
-};
-
 const badgeStyle = {
   color: "#fff",
   backgroundColor: "#088413",
@@ -79,47 +77,33 @@ const badgeStyle = {
 
 const links = [
   {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial/",
+    text: "Rockit",
+    url: "https://www.cyberport.hk/enewsletter/v170/1700008.html",
     description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
+      "Rockit was my very first venture. A health and wellness marketplace for fitness professionals " +
+      "to find and manage their clients. As a client, one could share an activity with a friend, " +
+      "or a stranger in order to meet new people and save money.  At Rockit, I served as the co-CEO, " +
+      "CPO, and early CTO.  We ended up shutting down as we scaled too quickly and our burn rate was too high. " +
+      "I'd be lazy to blame it on COVID, but it definitely didn't help. ",
     color: "#E95800",
   },
   {
-    text: "How to Guides",
-    url: "https://www.gatsbyjs.com/docs/how-to/",
+    text: "BFAM - Quant Trading",
+    url: "https://bfam-partners.com/",
     description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: "#1099A8",
-  },
-  {
-    text: "Reference Guides",
-    url: "https://www.gatsbyjs.com/docs/reference/",
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
+      "I was a quant trader on the sovereign rates desk at BFAM Partners.  I was responsible for " +
+      "modeling some signals' behavior mostly in python, and subsequently trading them with my PM's book." +
+      "I spent too much time watching Lagarde's press conferences.",
     color: "#BC027F",
   },
   {
-    text: "Conceptual Guides",
-    url: "https://www.gatsbyjs.com/docs/conceptual/",
+    text: "Shell Street Labs",
+    url: "https://www.efinancialcareers.co.uk/news/2018/11/shell-street-labs-jobs",
     description:
-      "Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.",
-    color: "#0D96F2",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-    color: "#8EB814",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    badge: true,
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-    color: "#663399",
+      "Shell Street Labs is the Quant arm of BFAM Partners. Work was actually quite fun! " +
+      "Was part of a stellar team of scientists and engineers responsible for alpha research and some execution." +
+      "Some of our strategies went on to make a decent amount of money for the firm.",
+    color: "#1099A8",
   },
 ];
 
@@ -129,28 +113,25 @@ const IndexPage = () => {
       <h1 style={headingStyles}>
         Hello there 👋!
         <br />
-        <span style={headingAccentStyles}>I'm Nathan</span>
+        <span style={headingAccentStyles}>I'm Nathan Landman</span>
       </h1>
+      <p style={linkStyle}>Me in 10 seconds</p>
       <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time. 😎
+        I'm a <code style={codeStyles}>Computer Scientist</code>, turned{" "}
+        <code style={codeStyles}>Quant</code>, turned{" "}
+        <code style={codeStyles}>Trader</code>, turned{" "}
+        <code style={codeStyles}>Entrepreneur</code>.
       </p>
       <ul style={listStyles}>
         <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-          >
-            {docLink.text}
-          </a>
+          <Link to="/ten-minute-nate" style={linkStyle}>
+            Me in 10 minutes
+          </Link>
         </li>
         {links.map((link) => (
           <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
             <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-              >
+              <a style={linkStyle} href={link.url}>
                 {link.text}
               </a>
               {link.badge && (
@@ -163,10 +144,12 @@ const IndexPage = () => {
           </li>
         ))}
       </ul>
-      <img
-        alt="Gatsby G Logo"
-        src="data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2a10 10 0 110 20 10 10 0 010-20zm0 2c-3.73 0-6.86 2.55-7.75 6L14 19.75c3.45-.89 6-4.02 6-7.75h-5.25v1.5h3.45a6.37 6.37 0 01-3.89 4.44L6.06 9.69C7 7.31 9.3 5.63 12 5.63c2.13 0 4 1.04 5.18 2.65l1.23-1.06A7.959 7.959 0 0012 4zm-8 8a8 8 0 008 8c.04 0 .09 0-8-8z' fill='%23639'/%3E%3C/svg%3E"
-      />
+      <div style={{ maxWidth: 300, marginBottom: 96 }}>
+        <StaticImage
+          alt="lounge"
+          src="https://static.thenounproject.com/png/148547-200.png"
+        />
+      </div>
     </main>
   );
 };
