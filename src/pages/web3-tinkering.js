@@ -1,8 +1,19 @@
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import { Helmet } from "react-helmet";
 import { Link } from "gatsby";
-import icon from "../images/icon.png";
+const Web3 = require("web3");
+
+const buttonStyle = {
+  color: "#fff",
+  backgroundColor: "#8953A8",
+  border: "none",
+  borderRadius: "4px",
+  padding: "10px 20px",
+  fontSize: "1.25rem",
+  fontWeight: "bold",
+  cursor: "pointer",
+  marginBottom: "20px",
+};
 
 const pageStyles = {
   padding: 96,
@@ -78,38 +89,6 @@ const rightAlign = {
   gap: "1rem",
 };
 
-const links = [
-  {
-    text: "Rockit",
-    url: "https://www.cyberport.hk/enewsletter/v170/1700008.html",
-    description:
-      "Rockit was my very first venture. A health and wellness marketplace for fitness professionals " +
-      "to find and manage their clients. As a client, one could share an activity with a friend, " +
-      "or a stranger in order to meet new people and save money.  At Rockit, I served as the co-CEO, " +
-      "CPO, and early CTO.  We ended up shutting down as we scaled too quickly and our burn rate was too high. " +
-      "I'd be lazy to blame it on COVID, and I get lazy. ",
-    color: "#E95800",
-  },
-  {
-    text: "BFAM Partners",
-    url: "https://bfam-partners.com/",
-    description:
-      "I was a quant trader on the sovereign rates desk at BFAM Partners.  I was responsible for " +
-      "modeling some signals' behavior mostly in python, and subsequently trading them with my PM's book." +
-      "I spent too much time watching Lagarde's press conferences.",
-    color: "#BC027F",
-  },
-  {
-    text: "Shell Street Labs",
-    url: "https://www.efinancialcareers.co.uk/news/2018/11/shell-street-labs-jobs",
-    description:
-      "Shell Street Labs is the Quant arm of BFAM Partners. Work was actually quite fun! " +
-      "Was part of a stellar team of scientists and engineers responsible for alpha research and some execution." +
-      "Some of our strategies went on to make a decent amount of money for the firm.",
-    color: "#1099A8",
-  },
-];
-
 const iconStyle = {
   width: "32px",
   height: "32px",
@@ -158,34 +137,81 @@ const social = (
   </div>
 );
 
+const links = [
+  //   {
+  //     text: "Rockit",
+  //     url: "https://www.cyberport.hk/enewsletter/v170/1700008.html",
+  //     description:
+  //       "Rockit was my very first venture. A health and wellness marketplace for fitness professionals " +
+  //       "to find and manage their clients. As a client, one could share an activity with a friend, " +
+  //       "or a stranger in order to meet new people and save money.  At Rockit, I served as the co-CEO, " +
+  //       "CPO, and early CTO.  We ended up shutting down as we scaled too quickly and our burn rate was too high. " +
+  //       "I'd be lazy to blame it on COVID, and I get lazy. ",
+  //     color: "#E95800",
+  //   },
+];
+
+// read NFT from the matic blockchain
+const readNFT = async () => {
+  const Web3 = require("web3");
+  const web3 = new Web3("https://rpc-mainnet.maticvigil.com");
+  const contractAddress = "0x3CD266509D127d0Eac42f4474F57D0526804b44e";
+  // include the version number of the NFT
+  const tokenId = "34";
+  const abi = [
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: tokenId,
+          type: "uint256",
+        },
+      ],
+      name: "tokenURI",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+  const contract = new web3.eth.Contract(abi, contractAddress);
+  const tokenURI = await contract.methods.tokenURI(1).call();
+  // deconstruct the tokenURI to get the metadata
+  const metadata = await fetch(tokenURI);
+  const metadataJSON = await metadata.json();
+  // convert metadataJSON to a string
+  const metadataString = JSON.stringify(metadataJSON);
+  return metadataString;
+};
+
+const backButton = (
+  <div style={{ marginTop: "60px" }}>
+    <Link to="/" style={linkStyle}>
+      Back
+    </Link>
+  </div>
+);
+
 const IndexPage = () => {
+  const [nft, setNft] = React.useState("");
+
+  const getNFT = async () => {
+    const nft = await readNFT();
+    setNft(nft);
+  };
+
   return (
     <main style={pageStyles}>
-      <Helmet>
-        <meta name="icon" href="../../public/favicon.ico" />
-      </Helmet>
-      {social}
       <h1 style={headingStyles}>
-        Hello there 👋!
+        Tinkering With Web3
         <br />
-        <span style={headingAccentStyles}>I'm Nathan Landman</span>
+        <span style={headingAccentStyles}>More coming soon!</span>
       </h1>
-      {/* <p style={linkStyle}>Me in 10 seconds</p> */}
-      <p style={paragraphStyles}>
-        I'm a <code style={codeStyles}>Computer Scientist</code>, turned{" "}
-        <code style={codeStyles}>Quant</code>, turned{" "}
-        <code style={codeStyles}>Trader</code>, turned{" "}
-        <code style={codeStyles}>Entrepreneur</code>; forever{" "}
-        <code style={codeStyles}>Curious</code>.
-      </p>
-      <p style={paragraphStyles}>
-        Chat with me about fitness and culture,
-        <br />
-        Intercellular and Intrahuman communication,
-        <br />
-        Technology and Tragedy.
-        <br />
-      </p>
       <ul style={listStyles}>
         {/* <li style={docLinkStyle}>
           <Link to="/ten-minute-nate" style={linkStyle}>
@@ -208,24 +234,32 @@ const IndexPage = () => {
           </li>
         ))}
       </ul>
-
-      <Link to="/web3-tinkering" style={linkStyle}>
-        Web3 Tinkering
-      </Link>
-      <div
-        style={{
-          maxHeight: "50%",
-          maxWidth: "50%",
-          display: "flex",
-          justifyContent: "flex",
-          gap: "1rem",
-        }}
-      >
-        {/* <img
-          alt="lounge"
-          src="https://static.thenounproject.com/png/148547-200.png"
-        /> */}
+      <div style={{ marginBottom: "15px" }}>
+        <a href="https://flow-nft-starter-sandy.vercel.app/" style={linkStyle}>
+          Build your own NFT Collection with Flow (Portal by yours truly.)
+        </a>
+        <p style={descriptionStyle}>
+          A Buildspace Tutorial from{"   "}
+          <a
+            href="https://buildspace.so/p/nfts-on-flow"
+            style={{ color: "#8953A8" }}
+          >
+            @Buildspace.
+          </a>
+        </p>
       </div>
+      {!nft ? (
+        <button style={buttonStyle} onClick={getNFT}>
+          Get Completion NFT Details
+        </button>
+      ) : (
+        <button style={buttonStyle} onClick={() => setNft("")}>
+          {" "}
+          Hide Details
+        </button>
+      )}
+      {nft && <p style={codeStyles}>{nft}</p>}
+      {backButton}
     </main>
   );
 };

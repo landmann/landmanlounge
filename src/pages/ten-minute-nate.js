@@ -69,11 +69,13 @@ const TenMinNatePage = () => {
   return (
     <main style={pageStyles}>
       <h1 style={headingStyles}>
-        Nate Landy in
+        The Story
         <br />
         <span style={headingAccentStyles}>Ten Minutes</span>
       </h1>
-      <p style={paragraphStyles}>Oof - ten minutes of me....</p>
+      <p style={paragraphStyles}>
+        I was born in <code style={codeStyles}>Lima, Peru</code>
+      </p>
       <Link to="/">Back</Link>
     </main>
   );
