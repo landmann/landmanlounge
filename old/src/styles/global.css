@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* change color of background to #FAF9F6 */
+@layer base {
+  body {
+    background: #faf9f6;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
