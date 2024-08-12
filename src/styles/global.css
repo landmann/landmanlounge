@@ -126,6 +126,17 @@ hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-light));
 }
+ul {
+	margin-bottom: 1.2em;
+}
+ul > li {
+  position: relative;
+}
+ul > li:first-child::before {
+  content: "";
+  position: absolute;
+  left: -1.2em;
+}
 @media (max-width: 720px) {
 	body {
 		font-size: 18px;
